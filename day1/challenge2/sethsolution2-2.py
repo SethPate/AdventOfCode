@@ -1,4 +1,14 @@
-content = ['R8', 'R4', 'R4', 'R8']
+input_file = 'input1.txt'
+
+input1 = open(input_file, 'r')
+
+content = input1.read()
+
+content = content.replace(" ", "")
+
+content = content.split(',')
+
+print (content)
 
 #creating two variables for direction and distance
 
@@ -45,7 +55,7 @@ for index in content:
 			while xdif != 0:
 				locations.append([int(finish[0]) - 1, finish[1]])
 				finish[0] = finish[0] -1
-				xdif = xdif - 1
+				xdif = xdif + 1
 			print (finish)
 			bearing = "west"
 	elif bearing == "east":
@@ -111,10 +121,9 @@ for index in content:
 
 # now i'm going to use a stupid method to find the first point of overlap
 
-duplicates = locations.count([4,0])
-
-print (duplicates)
+for i in locations:
+	if locations.count(i) > 1:
+		print (i, "Distance from finish: " + str(abs(i[0] - finish[0]) + abs(i[1] - finish[1])) + " steps")
+		break
 
 #and how far was it from the start?
-
-print ("Distance from start: " + str(abs(finish[0] - start[0]) + abs(finish[1] - start[1])) + " steps")
