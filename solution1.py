@@ -18,4 +18,17 @@ for i in content:
 	directions.append(i[0])
 	distance.append(i[1])
 
-print(combined[0][0],combined[1][0])
+start = (0,0)
+
+finish = (0,0)
+
+bearing = "north"
+
+north = 0
+east = 0
+south = 0
+west = 0
+
+for index in content:
+	print (index[0])
+	print (index[1])
