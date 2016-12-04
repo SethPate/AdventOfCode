@@ -1,8 +1,13 @@
 import numpy as np
+from optparse import OptionParser
+
+parser = OptionParser()
+parser.add_option("-i", "--input", dest="inputfile", help="Input data file", default="input_phil.txt")
+(opts, args) = parser.parse_args()
 
 triangles = []
 
-infile = open('input_phil.txt', 'r')
+infile = open(opts.inputfile, 'r')
 data = infile.readlines()
 for i in range(0,len(data),3):
 	d1 = data[i].split()

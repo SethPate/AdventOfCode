@@ -1,4 +1,5 @@
 from math import pi,sin,cos,fabs
+from optparse import OptionParser
 
 def checkLocation(p, locations):
 	for l in locations:
@@ -6,9 +7,13 @@ def checkLocation(p, locations):
 			return True
 	return False
 
+parser = OptionParser()
+parser.add_option("-i", "--input", dest="inputfile", help="Input data file", default="input_phil.txt")
+(opts, args) = parser.parse_args()
+
 steps = []
 
-infile = open('input_phil.txt', 'r')
+infile = open(opts.inputfile, 'r')
 for line in infile.readlines():
 	for step in line.split(','):
 		steps.append(step.strip())
