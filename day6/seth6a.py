@@ -27,7 +27,6 @@ for i in columns_list: #this sorts the strings by frequency and adds the most co
 	histogram = {}
 	for j in range(0,len(i)):
 		histogram[i[j]] = i.count(i[j])
-	print histogram
 	histo_sorted = [value[0] for value in sorted(histogram.items(), key = lambda (key,value): (-value,key))]
 	plaintext += histo_sorted[0]
 
