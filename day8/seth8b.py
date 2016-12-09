@@ -105,9 +105,37 @@ for i in range(0,len(screen)):
 
 #print summer
 
+for i in screen:
+	print '\n', i
+
 #let's make them easier to read...
 
-#for i in strings:
-#	print '\r', i
+letter_list = [] #this will be a list of letters, which are themselves lists of strings
+letter_width = 5 #given from prompt, this is how many columns each letter takes up.
 
-#well, it's not 44.
+
+for i in range(0,len(screen[0]) / letter_width): #iterates as many times as there are letters
+	print 'this is letter', i
+	cursor = i * letter_width #marks where to read the strings from
+	letter = [] #for each iteration, it spits out a letter, which is a list of strings
+	for j in range(0,len(screen)): #goes through each row
+		print 'this is row', j
+		screenstring = '' #i want to fill this string with the first 5 characters in this row
+		for k in range(cursor,cursor + letter_width): #for each character in the row
+			print 'row', j, 'position', k, 'is', screen[j][k]
+#			print screen[j][k]
+			screenstring += str(screen[j][k]) #add it to the string i defined earlier
+		print 'list of digits is', screenstring
+		letter.append(screenstring) #add that screenstring to the overall letter
+	print 'current letter is', letter
+	letter_list.append(letter)
+
+for i in range(0,len(letter_list)):
+	for j in letter_list[i]:
+		print '\r', j
+	print '\n'
+
+#well, that certainly looks like crap, but at least i can read it.
+
+for i in screen:
+	print '\r', i
