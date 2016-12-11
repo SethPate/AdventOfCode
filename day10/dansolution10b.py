@@ -7,8 +7,6 @@ class Bot:
 	highmicrochip = -1
 	lowinstruction = ""
 	highinstruction = ""
-	lowoutput = ""
-	highoutput = ""
 	twomicrochips = "no"
 	receivedmicrochip = -1
 	
@@ -119,11 +117,11 @@ while n < (len(twochipper)):
 		receiverlow = bot_dict[sendingbot].lowinstruction
 		bot_dict[receiverlow].receivedmicrochip = bot_dict[sendingbot].lowmicrochip
 		bot_dict[sendingbot].lowmicrochip = -1
+		bot_dict[sendingbot].twomicrochips = "no"
 		bot_dict[receiverlow].reorgchips()
 		bot_dict[receiverlow].chipcount()
 		if bot_dict[receiverlow].twomicrochips == "yes":
 			twochipper.append(receiverlow)
-			bot_dict[receiverlow].test6117()
 	else:
 		outputs[bot_dict[sendingbot].lowinstruction] = bot_dict[sendingbot].lowmicrochip 
 	
@@ -132,14 +130,18 @@ while n < (len(twochipper)):
 		bot_dict[receiverhigh].receivedmicrochip = bot_dict[sendingbot].highmicrochip
 		#print bot_dict[receiverhigh].receivedmicrochip
 		bot_dict[sendingbot].highmicrochip = -1
+		bot_dict[sendingbot].twomicrochips = "no"
 		bot_dict[receiverhigh].reorgchips()
 		bot_dict[receiverhigh].chipcount()
 		if bot_dict[receiverhigh].twomicrochips == "yes":
 			twochipper.append(receiverhigh)
-		bot_dict[receiverlow].test6117()
 	else:
 		outputs[bot_dict[sendingbot].highinstruction] = bot_dict[sendingbot].highmicrochip
-		
+	
+	if bot_dict[sendingbot].twomicrochips == "no":
+		n = n - 1
+		twochipper.remove(sendingbot)
+	
 	n = n + 1
 
 print "Solution B: " + " " + str(outputs.get('output 0') * outputs.get('output 1') * outputs.get('output 2'))
