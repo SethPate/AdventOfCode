@@ -25,37 +25,36 @@ class Bot(object):
 		print "i have these chips", self.chips
 
 	def give_chips(self):
-		if len(self.chips) == 2:
-			chip_l = sorted(self.chips)
-			low_chip = chip_l[0]
-			high_chip = chip_l[1]
-			print 'bot', self.name, 'has', chip_l
-			if '17' in chip_l and '61' in chip_l:
-				print 'the answer is bot', self.name, 'because i have chips', self.chips
-#				sys.exit()
-			print 'starting to give chips: i am bot', self.name, 'giving low chip', low_chip, 'to', self.lowpoint, self.low, 'and my high chip', high_chip, 'to', self.highpoint, self.high
-			for i in chip_l:
-				if i == low_chip:
-					if self.lowpoint == 'bot':
-						bot_d[self.low].chips.append(low_chip)
-						self.chips.remove(low_chip)
+		chip_l = sorted(self.chips)
+		low_chip = chip_l[0]
+		high_chip = chip_l[1]
+		print 'bot', self.name, 'has', chip_l
+		if 17 in chip_l and 61 in chip_l:
+			print 'the answer is bot', self.name, 'because i have chips', self.chips
+#			sys.exit()
+		print 'starting to give chips: i am bot', self.name, 'with chips', sorted(self.chips), 'giving low chip', chip_l[0], 'to', self.lowpoint, self.low, 'and my high chip', chip_l[1], 'to', self.highpoint, self.high
+		for i in chip_l:
+			if i == low_chip:
+				if self.lowpoint == 'bot':
+					bot_d[self.low].chips.append(int(chip_l[0]))
+					self.chips.remove(chip_l[0])
+					if len(bot_d[self.low].chips) == 2:						
 						iterator.append(self.low)
-						print iterator
-					else: 
-						out_d[self.low].chips.append(low_chip)
-						self.chips.remove(low_chip)
-				else:
-					if self.highpoint == 'bot':
-						bot_d[self.high].chips.append(high_chip)
-						self.chips.remove(high_chip)
+#						print iterator
+				else: 
+					out_d[self.low].chips.append(int(chip_l[0]))
+					self.chips.remove(chip_l[0])
+			if i == high_chip:
+				if self.highpoint == 'bot':
+					bot_d[self.high].chips.append(int(chip_l[1]))
+					self.chips.remove(chip_l[1])
+					if len(bot_d[self.high].chips) == 2:
 						iterator.append(self.high)
-						print iterator
-					else:
-						out_d[self.high].chips.append(high_chip)
-						self.chips.remove(high_chip)
-			print "this is bot", self.name, "whose chips are gone now, remaining chips:", self.chips
-		else:
-			print "received a chip but holding: this is bot", self.name, 'and i have only one chip which is', self.chips
+#						print iterator
+				else:
+					out_d[self.high].chips.append(int(chip_l[1]))
+					self.chips.remove(chip_l[1])
+		print "this is bot", self.name, "whose chips are gone now, remaining chips:", self.chips
 
 class Output(object):
 
@@ -72,8 +71,10 @@ print instructions
 
 for i in content: #go through the instructions to build all the bots
 	i = i.split()
+	print i
 	if i[0] == 'bot': #if it's a bot instruction
-		bot_d[i[1]] = Bot(i[1],[0,0],i[5],i[6],i[10],i[11]) #then create a Bot object with that bot's number
+		print 'creating bot with number', i[1], 'lowpoint of', i[5], i[6], 'highpoint of', i[10], i[11]
+		bot_d[i[1]] = Bot(i[1],[],i[5],i[6],i[10],i[11]) #then create a Bot object with that bot's number
 		if i[5] == 'output': #if it gives to output
 			out_d[i[6]] = Output([])
 		if i[10] == 'output': #if it gives to output
@@ -85,15 +86,17 @@ for i in content: #go through the instructions to build all the bots
 for i in instructions:
 	print i
 	i = i.split()
-	bot_d[i[5]].chips.append(i[1])
+	bot_d[i[5]].chips.append(int(i[1]))
 #	print 'bot', i[5], 'has', bot_d[i[5]].chips
 #	if len(bot_d[i[5]].chips) > 1:
-	bot_d[i[5]].give_chips()
+	if len(bot_d[i[5]].chips) == 2:
+		bot_d[i[5]].give_chips()
 
 for i in iterator:
-	bot_d[i].give_chips()
+	if len(bot_d[i].chips) == 2:
+		bot_d[i].give_chips()
 
 #it's not bot 38.
 
-#print out_d['0'].chips, out_d['1'].chips, out_d['2'].chips
+print out_d['0'].chips, out_d['1'].chips, out_d['2'].chips
 #print bot_d['0'].chips, bot_d['1'].chips, bot_d['2'].chips
