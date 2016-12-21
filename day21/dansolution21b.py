@@ -137,9 +137,6 @@ while finalanswer != finalpassword:
 
 		for j in range(0,len(updatedpasswordlist)):
 			finalpassword = finalpassword + str(updatedpasswordlist[j])
-	else:
-		counter = counter
-	counter += 1
 
 for j in range(0,len(updatedpasswordlist)):
 	testpasswordstring = testpasswordstring + str(testpassword[j])
