@@ -52,9 +52,6 @@ myregistry.regdict["b"] = 0
 myregistry.regdict["c"] = 0
 myregistry.regdict["d"] = 0
 
-print len(assembunny)
-counter = 0
-
 while myregistry.instructionnumber < len(assembunny) - 1:
 	instruction = assembunny[myregistry.instructionnumber]
 	instruction = instruction.split()
