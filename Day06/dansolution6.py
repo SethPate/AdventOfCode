@@ -69,3 +69,6 @@ secondhit = len(memorylist)
 firsthit = leftmostinstance(memorylist,memory)
 
 print "6b: " + str(int(secondhit) - int(firsthit))
+
+#some notes: 1--a better way to slice the list?
+#2 -- a better while loop than one that goes forever unless there's a break?
