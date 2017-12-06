@@ -1,6 +1,6 @@
 def getInput(f):
     """
-    input: .txt
+    input: .txt of integers separated by tabs
     output: a list of integers
     """
     f = open(f, 'r') #open the file
