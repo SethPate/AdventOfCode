@@ -28,7 +28,7 @@ def update(l):
             stepper += 1
         except IndexError:
 #            print('reached end of line, typewriter thingy dings back')
-            start = 0
+            start = 0   
             stepper = 0
 #   print('finished this stack, new list', l)
     return l
