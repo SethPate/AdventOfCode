@@ -49,6 +49,17 @@ def densehash(a,b):
         c = c ^ a[b+d]
     return c
 
+def hexcreate(a):
+    finalhex = ''
+    for b in range(0,len(a)):
+        hexme = hex(a[b])
+        hexme = str(hexme)
+        hexme = hexme.replace('0x','')
+        if len(hexme) == 1:
+            hexme = '0' + hexme
+        finalhex = finalhex + hexme
+    return finalhex
+
 #inputs
 input_text = 'daninput.txt'
 spiral_size = 256
@@ -113,14 +124,6 @@ while i < 255:
 dense_hash_list = intconvert(dense_hash_list)
 
 #4. Convert to hexadecimal.
-hexstring = ''
-
-for i in range(0,len(dense_hash_list)):
-    hexme = hex(dense_hash_list[i])
-    hexme = str(hexme)
-    hexme = hexme.replace('0x','')
-    if len(hexme) == 1:
-        hexme = '0' + hexme
-    hexstring = hexstring + hexme
+hexstring = hexcreate(dense_hash_list)
 
 print "10b: " + str(hexstring)
