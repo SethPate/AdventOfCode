@@ -38,7 +38,7 @@ i = 0
 #get to just brackets.
 exclamcleantext = exclamfix(trashtext)
 garbcleantext = garbfix(exclamcleantext)
-garbcleantext = garbcleantext.replace(',','')
+#garbcleantext = garbcleantext.replace(',','')
 garbcleantext = garbcleantext.replace('\n','')
 
 garbcleanlist = list(garbcleantext)
@@ -69,8 +69,7 @@ for i in range(0,len(garbcleantext)):
         openbracket = 0
         closedbracket = 0
 
-print garbcleanlist2
-
+print garbcleantext
 #backwards scoring. hmm.
 #score = 0
 #scorelist = []
