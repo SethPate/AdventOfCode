@@ -1,17 +1,3 @@
-f = open('sethinput.txt', 'r')
-reader = f.read()
-reader = reader.split(',')
-lengths = [] #this will be a list of integers, and my input
-for i in reader:
-    lengths.append(int(i))
-
-data = [i for i in range(256)]
-print(data)
-#lengths = [3,4,1,5]
-
-position = 0
-skipSize = 0
-
 def stringSwitcher(l, position, length):
     """input: a list of numbers, an indexing position, and a length of an integer
     output: a list of numbers, after starting in the input list at "position",
@@ -31,6 +17,18 @@ def stringSwitcher(l, position, length):
         newList[(position + i) % len(l)] = reversedBit[i]
     
     return newList
+
+f = open('sethinput.txt', 'r')
+reader = f.read()
+reader = reader.split(',')
+lengths = [] #this will be a list of integers, and my input
+for i in reader:
+    lengths.append(int(i))
+
+data = [i for i in range(256)]
+
+position = 0
+skipSize = 0
     
 for i in lengths:
 #    print('starting with', data, 'at position', position, 'length of', i)
@@ -41,6 +39,6 @@ for i in lengths:
     skipSize += 1
 #    print('\n')
 
-print(data)
+#print(data)
 
 print('answer to part a is', data[0] * data[1])
