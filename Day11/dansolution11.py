@@ -79,8 +79,9 @@ maxdistance = 0
 #add a direction to the freq_dict.
 #simplify the freq_dict to get the updated position.
 #calculate the distance.
-for i in range(0,len(directionlist)):
-    freq_dict = freqmaker_step(directionlist[i],freq_dict)
+#for i in range(0,len(directionlist)):
+for item in directionlist:
+    freq_dict = freqmaker_step(item,freq_dict)
     freq_dict = simplifiedfreq(freq_dict)
     totaldistance = getdistance(freq_dict)
     if maxdistance < totaldistance:
