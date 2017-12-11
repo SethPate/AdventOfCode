@@ -53,10 +53,12 @@ def simplifiedfreq(b):
 #b/c it's a hex grid, n/s only matter if we're further out than e/w.
 #this formula gets the distance.
 def getdistance(b):
-    if b['sw'] + b['ne'] + b['se'] + b['nw'] >= b['n'] + b['s']:
-        return b['sw'] + b['ne'] + b['se'] + b['nw']
+    eastwest = b['sw'] + b['ne'] + b['se'] + b['nw']
+    northsouth = b['n'] + b['s']
+    if eastwest >= northsouth:
+        return eastwest
     else:
-        return b['sw'] + b['ne'] + b['se'] + b['nw'] + b['n'] + b['s']
+        return eastwest + northsouth
 
 #bring in movement as a list.
 input_text = 'daninput.txt'
