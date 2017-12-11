@@ -69,8 +69,8 @@ dir_list = list(directionset)
 #create dictionary of frequency of movements.
 freq_dict = {}
 
-for i in range(0,len(dir_list)):
-    freq_dict[dir_list[i]] = 0
+for item in dir_list:
+    freq_dict[item] = 0
 
 #initialize max distance.
 maxdistance = 0
