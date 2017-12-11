@@ -52,6 +52,8 @@ lengths = [] #this will be a list of integers, and my input
 print('now adding the ASCII value for each character', [ord(i) for i in reader])
 lengths.extend([ord(i) for i in reader]) #add the ASCII value for each char in reader
 
+del lengths[-1] #because the input had at the end of it
+
 print('now adding from the puzzle prompt, 17, 31, 73, 47, 23')
 lengths.extend([17, 31, 73, 47, 23]) #adding these in directly from puzzle prompt
 print('lengths are', lengths)
@@ -62,18 +64,22 @@ print('data is', data)
 position = 0
 skipSize = 0
 
+sparseHash = data.copy()
+
 for i in range(64): #loop 64 times
 #    print('running loop time number', i)
     for j in lengths: #using the new ASCII inputs
-        data = stringSwitcher(data,position,j)
+        sparseHash = stringSwitcher(sparseHash,position,j)
         position = ((position + j + skipSize) % len(data))
         skipSize += 1 #maintain skipSize across 64 loops, and position, too
 #        print('position of', position, 'skipsize of', skipSize)
 #    print('new data after loop', i, 'is', data)
-        
-xorList = [] #this will be the result of 16 different XOR lists
 
-dataCopy = data.copy()
+print('sparse hash is', sparseHash)
+
+denseHash = [] #this will be the result of 16 different XOR lists
+
+sparseHashCopy = sparseHash.copy()
 
 def xorMaker(l):
 #    print('starting xorMaker with list', l)
@@ -83,15 +89,15 @@ def xorMaker(l):
 #    print('xorMaker is crunching list', l, 'and giving answer', answer)
     return answer
 
-while len(dataCopy) > 15: #do this until you delete the whole list here
-    xorList.append(xorMaker(dataCopy[:16])) #take 16 chars from list, give to function, add to answer
-    del dataCopy[:16] #delete those 16 chars
+while len(sparseHashCopy) > 15: #do this until you delete the whole list here
+    denseHash.append(xorMaker(sparseHashCopy[:16])) #take 16 chars from list, give to function, add to answer
+    del sparseHashCopy[:16] #delete those 16 chars
     
-print('xorList is', xorList) #should now be 16 digits long
+print('denseHash is', denseHash) #should now be 16 digits long
 
 hexList = [] #god willing, this will be a list of 32 hex characters
 
-for i in xorList:
+for i in denseHash: #add the hex value of each character in xorList
     hexList.extend(hex(i)[2:])
 
 hexString = ''
