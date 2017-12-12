@@ -2,7 +2,7 @@ from math import pi,sin,cos
 
 f = open('sethinput.txt', 'r')
 directions = f.read()
-#directions = 'ne,ne,ne'
+#directions = 'se,sw,se,sw,sw'
 directions = directions.split(',')
 
 x = 0 #track distance in the x
@@ -13,7 +13,7 @@ n = (pi/2)
 nw = (3*pi/4)
 sw = (5*pi/4)
 s = (3*pi/2)
-se = (7*pi/2)
+se = (7*pi/4)
 
 for direction in directions:
     print(direction)
@@ -34,7 +34,7 @@ for direction in directions:
         y += sin(s)
     elif direction == 'se':
         x += cos(se)
-        y += sin(s)
+        y += sin(se)
     else:
         print('direction does not make sense')
         
