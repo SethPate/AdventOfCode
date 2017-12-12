@@ -54,14 +54,10 @@ def simplifiedfreq(b):
 #this formula gets the distance.
 def getdistance(b):
     if (b['sw'] > 0 and b['se'] > 0) or (b['nw'] > 0 and b['ne'] > 0):
-        southdiff = abs(b['sw'] - abs(b['se']))
-        northdiff = abs(b['nw'] - abs(b['ne']))
-        southfacing = (b['sw'] + b['se']) - (2 * southdiff) + b['s'] + b['n']
-        northfacing = (b['nw'] + b['ne']) - (2 * northdiff) + b['s'] + b['n']
-        if southdiff > northdiff:
-            return southdiff
-        else:
-            return northdiff
+        samedir = abs(b['sw'] - abs(b['se'])) + abs(b['nw'] - abs(b['ne']))
+        distancesum = b['nw'] + b['ne'] + b['sw'] + b['se'] + b['s'] + b['n']
+        simpledistance = distancesum - (2 * samedir)
+        return simpledistance
     else:
         eastwest = b['sw'] + b['ne'] + b['se'] + b['nw']
         northsouth = b['n'] + b['s']
