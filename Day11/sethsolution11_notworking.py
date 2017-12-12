@@ -1,22 +1,27 @@
-from math import pi,sin,cos
+#this doesn't work; don't use this.
+
+from math import pi,sin,cos,fabs,sqrt
 
 f = open('sethinput.txt', 'r')
 directions = f.read()
-#directions = 'se,sw,se,sw,sw'
+#directions = 'n,nw'
+print(directions)
 directions = directions.split(',')
+directions[-1] = directions[-1][:1]
+print(directions)
 
 x = 0 #track distance in the x
 y = 0 #track distance in the y
 
-ne = (pi/4)
+ne = (pi/6)
 n = (pi/2)
-nw = (3*pi/4)
-sw = (5*pi/4)
+nw = (5*pi/6)
+sw = (7*pi/6)
 s = (3*pi/2)
-se = (7*pi/4)
+se = (11*pi/6)
 
 for direction in directions:
-    print(direction)
+#    print(direction)
     if direction == 'ne':
         x += cos(ne)
         y += sin(ne)
@@ -37,5 +42,7 @@ for direction in directions:
         y += sin(se)
     else:
         print('direction does not make sense')
-        
-print('answer to part a is', round((x ** 2 + y ** 2) ** .5))
+
+hypotenuse = sqrt(x**2 + y**2)
+
+print('answer to part a is', hypotenuse, 'round to', round(hypotenuse))
