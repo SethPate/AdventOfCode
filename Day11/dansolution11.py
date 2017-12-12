@@ -53,12 +53,22 @@ def simplifiedfreq(b):
 #b/c it's a hex grid, n/s only matter if we're further out than e/w.
 #this formula gets the distance.
 def getdistance(b):
-    eastwest = b['sw'] + b['ne'] + b['se'] + b['nw']
-    northsouth = b['n'] + b['s']
-    if eastwest >= northsouth:
-        return eastwest
+    if (b['sw'] > 0 and b['se'] > 0) or (b['nw'] > 0 and b['ne'] > 0):
+        southdiff = abs(b['sw'] - abs(b['se']))
+        northdiff = abs(b['nw'] - abs(b['ne']))
+        southfacing = (b['sw'] + b['se']) - (2 * southdiff) + b['s'] + b['n']
+        northfacing = (b['nw'] + b['ne']) - (2 * northdiff) + b['s'] + b['n']
+        if southdiff > northdiff:
+            return southdiff
+        else:
+            return northdiff
     else:
-        return eastwest + northsouth
+        eastwest = b['sw'] + b['ne'] + b['se'] + b['nw']
+        northsouth = b['n'] + b['s']
+        if eastwest > northsouth:
+            return eastwest
+        else:
+            return eastwest + northsouth
 
 #bring in movement as a list.
 input_text = 'daninput.txt'
@@ -87,6 +97,8 @@ for item in directionlist:
     totaldistance = getdistance(freq_dict)
     if maxdistance < totaldistance:
         maxdistance = totaldistance
+
+print freq_dict
 
 print "11a: " + str(totaldistance)
 print "11b: " + str(maxdistance)
