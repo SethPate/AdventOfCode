@@ -75,11 +75,14 @@ def densehash(a,b):
 
 hash_list = []
 spiral_size = 256
+
+#we're going to run the 10b procedure for 128 different text inputs.
 for k in range(0,128):
 
-    #1. Convert input_lengths into ASCII.
+    #the text input is the input string, plus a dash, plus our value k.
     textinput = str(input_text) + "-" + str(k)
-    #print textinput
+
+    #1. Convert input_lengths into ASCII.
     asciilist = asciilistmaker(textinput)
     asciilist = intconvert(asciilist)
     #print asciilist
@@ -116,9 +119,9 @@ for k in range(0,128):
     hexanswer = hexcreate(dense_hash_list)
     hash_list.append(hexanswer)
 
-#print hash_list
+#now the new stuff.
 
-binary_list = []
+binary_list = ''
 
 for item in hash_list:
     binary_input = binarystring(item)
@@ -127,3 +130,5 @@ for item in hash_list:
 counter=collections.Counter(binary_list)
 
 print "14a: " + str(counter['1'])
+
+#14b is harder. will revisit in evening.
