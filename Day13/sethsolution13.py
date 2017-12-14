@@ -12,7 +12,7 @@ def firewallBuilder(dictionary, list):
     dictionary[list[0]] = [] #the value will be a list of zeros
     for i in range(list[1]):
         dictionary[list[0]].append(0) #build out the depth of each layer
-    dictionary[list[0]][0] = 1 #here's the location of the security scanner
+#    dictionary[list[0]][0] = 1 #here's the location of the security scanner
     flag = True
     dictionary[list[0]] = [dictionary[list[0]],flag] #appends a boolean for direction
     return dictionary
@@ -56,17 +56,25 @@ def severity(dictionary):
         hypotheticalDictionary = wallUpdater(hypotheticalDictionary)
     return severity
 
-def isCaught(dictionary):
-    #true if trying to get through the firewall would get you caught
+def isCaught(dictionary, t):
+    #true if trying to get through the firewall would get you caught at time t
     dictCopy = copy.deepcopy(dictionary)
-    for i in range(len(dictCopy)):
-        if dictCopy[i][0][0] == 1:
-#            print('caught by security at layer', i, 'see', dictCopy[i][0])
-            return True
-        dictCopy = wallUpdater(dictCopy)
+    print('finding in dict with time =', t)
+    for i in dictCopy:
+        if dictionary[i] == 'skip':
+            print('skipping number', i)
+            t += 1
+        else:
+            scannerPosition = (t % (2 * (len(dictionary[i][0])-1)))
+            dictCopy[i][0][scannerPosition] = 1
+            print(i, 'is now', dictCopy[i][0])
+            if dictCopy[i][0][0] == 1:
+                print(dictCopy[i][0])
+                return True
+            t += 1
     return False
 
-f = open('sethinput.txt', 'r')
+f = open('testinput.txt', 'r')
 data = f.readlines()
     
 firewall = {}
@@ -76,15 +84,15 @@ for instruction in data:
 
 firewallFinisher(firewall)
 
-print('answer to part A is', severity(firewall))
+#print('answer to part A is', severity(firewall))
 
-delay = 0
+delay = 10
 
-while isCaught(firewall):
-    delay += 1
-    firewall = wallUpdater(firewall)
-#    print('delay of', delay, 'isCaught?', isCaught(firewall))
-    if delay > 100000:
-        break
+print(isCaught(firewall,delay))
 
-print('part B answer is', delay)
+#while isCaught(firewall,delay):
+#    delay += 1
+#    if delay > 100:
+#        break
+#
+#print('part B answer is', delay)
