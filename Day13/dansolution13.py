@@ -24,6 +24,16 @@ class Layer:
             else:
                 self.scanner_position += 1
 
+    def timeshift(self,time_input):
+        poscount = (2 * self.size) - 2
+        if 2 * (time_input % poscount) <= poscount:
+            self.scanner_position = (time_input % poscount) + 1
+            self.direction = 'd'
+        else:
+            self.scanner_position = poscount - (time_input % poscount) + 1
+            self.direction = 'u'
+        #print str(time_input) + ": " + str(self.scanner_position)
+
 def newlinefile(a):
     input1 = open(a, 'r')
     input1 = input1.read()
@@ -74,28 +84,25 @@ for i in range(0,firewallsize):
 print "13a: " + str(severity)
 
 #13b solution
-#computationally too inefficient?
-#it works in testing but no result w/ live data after 25 minutes.
 starttime = 0
 
+#pared down to the bare bones.
 while True:
-    layer_dict = layer_reset(layer_dict,layer_list)
     severity = 0
-    #print starttime
-    for i in range(0,starttime):
-        layer_dict = move_every_scanner(layer_dict,layer_list)
-    for i in range(0,firewallsize):
-        if i in layer_list:
-            if layer_dict[i].scanner_position == 1:
-                #note the trick! Getting caught at zero still counts.
-                #precision not important; just yes/no.
-                severity += 1
-        layer_dict = move_every_scanner(layer_dict,layer_list)
-    #print severity
+    for item in layer_list:
+        layer_dict[item].scanner_position = 1
+        layer_dict[item].direction = 'd'
+        layer_dict[item].timeshift(starttime + item)
+    for i in layer_list:
+        if layer_dict[i].scanner_position == 1:
+            severity = 1
+            break
     if severity == 0:
         break
     else:
         starttime += 1
-        #print "miss"
+    #just to have an idea of the rate of calculation.
+    if starttime % 10000 == 0:
+        print starttime
 
 print "13b: " + str(starttime)
