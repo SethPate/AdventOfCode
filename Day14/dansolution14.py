@@ -1,17 +1,20 @@
 #dansolution14
 
-import collections
-
 input_text = 'hxtvlmkl'
 #input_text = 'flqrgnkx'
 
-def hexstring(a):
-    myhexstring = ''
-    for b in a:
-        hexme = str(hex(ord(b))[2:])
-        hexme = hexme.zfill(2)
-        myhexstring = myhexstring + hexme
-    return myhexstring
+class Coordinate:
+    name = []
+    x_pos = 0
+    y_pos = 0
+    display = ''
+
+    def countrychange(self):
+        coordinatecheck = self.name
+        ncheck = str(coordinate_dict[coordinatecheck].y_pos + 1)
+        scheck = str(coordinate_dict[coordinatecheck].y_pos - 1)
+        echeck = str(coordinate_dict[coordinatecheck].x_pos + 1)
+        wcheck = str(coordinate_dict[coordinatecheck].x_pos - 1)
 
 def hexcreate(a):
     finalhex = ''
@@ -25,8 +28,11 @@ def hexcreate(a):
     return finalhex
 
 def binarystring(a):
-    scale = 16
-    b = bin(int(a, scale))[2:].zfill(8)
+    b = ''
+    for c in str(a):
+        binval = str(bin(int(c,16))[2:])
+        binval = binval.zfill(4)
+        b = str(b) + binval
     return b
 
 def asciilistmaker(a):
@@ -65,13 +71,22 @@ def densehash(a,b):
         c = c ^ a[b+d]
     return c
 
-#hexedinput = hexstring(input_text)
+def countrybuild(short_list,long_list,check_value):
+    check_list = []
+    check_list.append([check_value[0] + 1, check_value[1]])
+    check_list.append([check_value[0] - 1, check_value[1]])
+    check_list.append([check_value[0], check_value[1] + 1])
+    check_list.append([check_value[0], check_value[1] - 1])
+    for a in check_list:
+        if a in long_list:
+            short_list.append(a)
+    return short_list
 
-#print hexedinput
-
-#binaryinput = binarystring(hexedinput)
-
-#print binaryinput
+def listclean(short_list,long_list):
+    for a in short_list:
+        if a in long_list:
+            long_list.remove(a)
+    return long_list
 
 hash_list = []
 spiral_size = 256
@@ -121,14 +136,46 @@ for k in range(0,128):
 
 #now the new stuff.
 
-binary_list = ''
+#binary_list = ''
 
-for item in hash_list:
-    binary_input = binarystring(item)
-    binary_list = str(binary_list) + str(binary_input)
+coordinate_dict = {}
+onecounter = 0
+countrylist = []
 
-counter=collections.Counter(binary_list)
+for y in range(0,len(hash_list)):
+    #print hash_list[y]
+    binary_input = binarystring(hash_list[y])
+    #print binary_input
+    for x in range(0,len(binary_input)):
+        coordinatename = str(x) + "-" + str(y)
+        coordinate_dict[coordinatename] = Coordinate()
+        coordinate_dict[coordinatename].name = [x,y]
+        coordinate_dict[coordinatename].x_pos = x
+        coordinate_dict[coordinatename].y_pos = y
+        if binary_input[x] == '1':
+            coordinate_dict[coordinatename].display = "#"
+            countrylist.append(coordinate_dict[coordinatename].name)
+            onecounter += 1
+        else:
+            coordinate_dict[coordinatename].display = "."
 
-print "14a: " + str(counter['1'])
+print "14a: " + str(onecounter)
 
-#14b is harder. will revisit in evening.
+#14b solution. genuinely shocked this worked!
+list_of_new_countries = []
+
+while len(countrylist) > 0:
+    newcountry = []
+    i = 0
+    j = 0
+    if countrylist[i] not in newcountry and len(newcountry) == 0:
+        newcountry.append(countrylist[i])
+        newcountry = countrybuild(newcountry,countrylist,countrylist[i])
+        countrylist = listclean(newcountry,countrylist)
+    while j < len(newcountry):
+        newcountry = countrybuild(newcountry,countrylist,newcountry[j])
+        countrylist = listclean(newcountry,countrylist)
+        j += 1
+    list_of_new_countries.append(newcountry)
+
+print "14b: " + str(len(list_of_new_countries))
