@@ -32,10 +32,59 @@ class linedance(str):
         x = self.dancers.index(a) #find the index of dancer a
         y = self.dancers.index(b) #and the index of dancer b
         newString = self.exchange(x,y)
-#        locations = [x,y]
-#        locations.sort()
-#        x = locations[0] #location of first dancer
-#        y = locations[1] #location of second dancer
         self = newString
+        
+    def setDancers(self,string):
+        self.dancers = string
 
-partA = linedance('abcde')
+def inputParser(instruction,linedance):
+    #takes a string instruction and carries it out on the linedance given
+    move = instruction[0]
+    instruction = instruction[1:]
+    if '/' in instruction:
+        instruction = instruction.split('/')
+    if move == 's':
+        linedance.spin(int(instruction))
+    elif move == 'x':
+        linedance.exchange(int(instruction[0]),int(instruction[1]))
+    elif move == 'p':
+        linedance.partner(instruction[0],instruction[1])
+
+partA = linedance('abcdefghijklmnop')
+
+#partA = linedance('abcde')
+
+f = open('sethinput.txt', 'r')
+data = f.read()
+data = data.strip()
+data = data.split(',')
+
+"""here's just part A."""
+
+#for instruction in data:
+#    inputParser(instruction,partA)
+#
+#print('part a answer is', partA.dancers)
+
+savedStates = {}
+counter = 0
+cycle = 480000
+
+while counter < cycle:
+    for instruction in data:
+        oldState = partA.dancers
+        savedStates[counter] = oldState
+        inputParser(instruction,partA)
+        counter += 1
+
+print('cycle', cycle)
+instructions = len(data)
+print('instructions', instructions)
+loops = 1000000000
+print('number of loops', loops)
+iteration = instructions * loops
+print('so search for iteration', iteration)
+adjusted = iteration % cycle
+print('on cycle index', adjusted)
+
+print('part b answer is', savedStates[adjusted])
