@@ -62,9 +62,10 @@ reg_dict_0 = regmaker(instructions)
 reg_dict_1 = regmaker(instructions)
 
 reg_dict_0['p'] = 0
-reg_dict_0['name'] = '0'
 reg_dict_1['p'] = 1
-reg_dict_1['name'] = '1'
+
+term0 = 0
+term1 = 0
 
 print reg_dict_1
 print reg_dict_0
@@ -82,13 +83,13 @@ breakflag_1 = 0
 
 while int(breakflag_1) + int(breakflag_0) < 2:
 
-    print "starting reg0"
+    #print "starting reg0"
 
-    while breakflag_0 == 0 and reg_0_instruction_pos >= 0 and reg_0_instruction_pos < len(instructions):
+    while breakflag_0 == 0 and reg_0_instruction_pos >= 0 and reg_0_instruction_pos < len(instructions) and term0 == 0:
         instruction = instructions[reg_0_instruction_pos].split(' ')
-        #print instruction
         if instruction[0] == 'snd':
             reg_1_queue = regsnd(reg_1_queue,reg_dict_0[instruction[1]])
+            #print "1q:" + str(len(reg_1_queue))
             reg_0_instruction_pos += 1
             reg_0_send_count += 1
         elif instruction[0] == 'set':
@@ -100,14 +101,14 @@ while int(breakflag_1) + int(breakflag_0) < 2:
             reg_0_instruction_pos += 1
         elif instruction[0] == 'add':
             if instruction[2] in reg_dict_0:
-                checkme = int(reg_dict[instruction[2]])
+                checkme = int(reg_dict_0[instruction[2]])
             else:
                 checkme = int(instruction[2])
             reg_dict_0[instruction[1]] = regadd(reg_dict_0[instruction[1]],checkme)
             reg_0_instruction_pos += 1
         elif instruction[0] == 'mul':
             if instruction[2] in reg_dict_0:
-                checkme = int(reg_dict[instruction[2]])
+                checkme = int(reg_dict_0[instruction[2]])
             else:
                 checkme = int(instruction[2])
             reg_dict_0[instruction[1]] = regmul(reg_dict_0[instruction[1]],checkme)
@@ -120,27 +121,34 @@ while int(breakflag_1) + int(breakflag_0) < 2:
             reg_dict_0[instruction[1]] = regmod(reg_dict_0[instruction[1]],checkme)
             reg_0_instruction_pos += 1
         elif instruction[0] == 'rcv':
+            #print "rcv!"
             if len(reg_0_queue) > 0:
-                print len(reg_0_queue)
                 reg_dict_0[instruction[1]] = reg_0_queue[0]
+                #print len(reg_0_queue)
                 reg_0_queue.pop(0)
+                #print len(reg_0_queue)
                 reg_0_instruction_pos += 1
             else:
                 breakflag_0 = 1
+                reg_0_instruction_pos += 1
         elif instruction[0] == 'jgz':
             if instruction[2] in reg_dict_0:
                 checkme = int(reg_dict_0[instruction[2]])
             else:
                 checkme = int(instruction[2])
-            reg_0_instruction_pos = regjgz(reg_0_instruction_pos,reg_dict_0[instruction[1]],checkme)
+            if instruction[1] in reg_dict_0:
+                reg_0_instruction_pos = regjgz(reg_0_instruction_pos,reg_dict_0[instruction[1]],checkme)
+            else:
+                reg_0_instruction_pos = regjgz(reg_0_instruction_pos,int(instruction[1]),checkme)
 
-    print "starting reg1"
+    #print "starting reg1"
 
-    while breakflag_1 == 0 and reg_1_instruction_pos >= 0 and reg_1_instruction_pos < len(instructions):
+    while breakflag_1 == 0 and reg_1_instruction_pos >= 0 and reg_1_instruction_pos < len(instructions) and term1 == 0:
         instruction = instructions[reg_1_instruction_pos].split(' ')
-        print instruction
+        print "reg1: " + str(instruction)
         if instruction[0] == 'snd':
             reg_0_queue = regsnd(reg_0_queue,reg_dict_1[instruction[1]])
+            #print reg_0_queue
             reg_1_instruction_pos += 1
             reg_1_send_count += 1
         elif instruction[0] == 'set':
@@ -159,7 +167,7 @@ while int(breakflag_1) + int(breakflag_0) < 2:
             reg_1_instruction_pos += 1
         elif instruction[0] == 'mul':
             if instruction[2] in reg_dict_1:
-                checkme = int(reg_dict[instruction[2]])
+                checkme = int(reg_dict_1[instruction[2]])
             else:
                 checkme = int(instruction[2])
             reg_dict_1[instruction[1]] = regmul(reg_dict_1[instruction[1]],checkme)
@@ -173,28 +181,44 @@ while int(breakflag_1) + int(breakflag_0) < 2:
             reg_1_instruction_pos += 1
         elif instruction[0] == 'rcv':
             if len(reg_1_queue) > 0:
+                #print len(reg_1_queue)
                 reg_dict_1[instruction[1]] = reg_1_queue[0]
                 reg_1_queue.pop(0)
+                #print len(reg_1_queue)
                 reg_1_instruction_pos += 1
             else:
                 breakflag_1 = 1
+                print "BREAK"
+                reg_1_instruction_pos += 1
+                #print "hello!"
         elif instruction[0] == 'jgz':
             if instruction[2] in reg_dict_1:
                 checkme = int(reg_dict_1[instruction[2]])
             else:
                 checkme = int(instruction[2])
-            reg_1_instruction_pos = regjgz(reg_1_instruction_pos,reg_dict_1[instruction[1]],checkme)
-
-    if len(reg_1_queue) > 0:
-        breakflag_1 = 0
-
-    if reg_1_instruction_pos >= 0 and reg_1_instruction_pos < len(instructions):
-        breakflag_1 = 1
+            if instruction[1] in reg_dict_1:
+                reg_1_instruction_pos = regjgz(reg_1_instruction_pos,reg_dict_1[instruction[1]],checkme)
+            else:
+                reg_1_instruction_pos = regjgz(reg_1_instruction_pos,int(instruction[1]),checkme)
 
     if len(reg_0_queue) > 0:
         breakflag_0 = 0
 
-    if reg_0_instruction_pos >= 0 or reg_0_instruction_pos < len(instructions):
+    if reg_0_instruction_pos < 0 or reg_0_instruction_pos >= len(instructions):
         breakflag_0 = 1
+        term0 = 1
 
+    if len(reg_1_queue) > 0:
+        breakflag_1 = 0
+
+    if reg_1_instruction_pos < 0 or reg_1_instruction_pos >= len(instructions):
+        breakflag_1 = 1
+        term1 = 1
+
+    #print breakflag_0
+    #print breakflag_1
+
+
+
+print reg_0_send_count
 print reg_1_send_count
