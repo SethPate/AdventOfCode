@@ -112,15 +112,19 @@ iter_count = 0
 
 print len(particle_list)
 
-while iter_count < 2000:
+while iter_count < 1000:
     iter_count += 1
     pos_list = []
     for pticle in particle_list:
         particle_dict[pticle].particle_update()
         particle_dict[pticle].curr_pos()
+    removal_list = []
     for pticle in particle_list:
         if pos_list.count(particle_dict[pticle].full_pos) > 1:
-            particle_list.remove(pticle)
+            removal_list.append(pticle)
+    for pticle in removal_list:
+        particle_list.remove(pticle)
+    #print particle_list
 
     #print iter_count
         #particle_dict[i].m_dist_calc()
