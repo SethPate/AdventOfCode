@@ -124,18 +124,5 @@ while iter_count < 1000:
             removal_list.append(pticle)
     for pticle in removal_list:
         particle_list.remove(pticle)
-    #print particle_list
-
-    #print iter_count
-        #particle_dict[i].m_dist_calc()
-        #particle_dict[i].avg_m_dist_calc()
-
-#min_avg = particle_dict[0].avg_m_dist
-#min_particle = 0
-
-#for i in range(1,len(particle_dict)):
-    #if particle_dict[i].avg_m_dist < min_avg:
-        #min_avg = particle_dict[i].avg_m_dist
-        #min_particle = i
 
 print "20b: " + str(len(particle_list))
