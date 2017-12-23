@@ -92,7 +92,7 @@ def r270(a):
     return match
 
 def randomizemove(a):
-    x = randint(1, 5)
+    x = randint(1, 3)
     print x
     if x == 1:
         a = fhoriz(a)
@@ -100,10 +100,6 @@ def randomizemove(a):
         a = fvert(a)
     elif x == 3:
         a = r90(a)
-    elif x == 4:
-        a = r180(a)
-    else:
-        a = r270(a)
     return a
 
 input_text = 'daninput.txt'
@@ -147,5 +143,4 @@ while True:
         break
     else:
         currentgrid = randomizemove(currentgrid)
-        currentgrid = randomizemove(currentgrid)
-        transformcount += 2
+        transformcount += 1
