@@ -103,10 +103,11 @@ def unpack(squares, instructions):
     for i in squares:
         output.append(match(i,instructions))
     newoutput = []
-    for i in range(len(output)):
-        if len(output[i]) == 19: #if it's size 4
+    for i in output:
+        if len(i) == 19: #if it's size 4 square
             returnNew = True
-            littles = divide(output[i])
+            littles = divide(i)
+            print('divided', i, 'into', littles)
             for i in littles:
                 newoutput.append(i)
     if returnNew == True:
@@ -119,7 +120,17 @@ def match(square, instructions):
     checker = getRotations(square)
     for i in checker:
         if i in instructions:
+            worked = i
             output = instructions[i]
+    print('matching', square, 'rotation', worked, 'to', output)
+    return output
+
+def count(squares):
+    #takes a list of squares
+    #returns the number of #s in them
+    output = 0
+    for i in squares:
+        output += i.count('#')
     return output
 
 prompt = ['.#./..#/###']
@@ -130,12 +141,10 @@ data = data.split('\n')
 
 instructions = inputToDict(data)
 
+print(prompt)
+
 for i in range(1,6):
+    print('iteration', i)
     prompt = unpack(prompt, instructions)
-
-totalOnes = 0 #part A answer
-
-for i in prompt:
-    totalOnes += i.count('#')
-
-print(totalOnes)
+    print(prompt)
+    print('length', len(prompt), 'count', count(prompt), '\n')
