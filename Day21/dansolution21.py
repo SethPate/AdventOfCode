@@ -1,6 +1,7 @@
 #dansolution21
 
 import math
+from random import *
 
 def newlinefile(a):
     input1 = open(a, 'r')
@@ -70,7 +71,6 @@ def r90(a):
     match = ''
     decreaser = boxsize - 1
     while decreaser >= 0:
-        templist = []
         for i in range(0,charlength):
             if i % boxsize == decreaser:
                 match = a[i] + match
@@ -85,12 +85,26 @@ def r270(a):
     boxsize = int(math.sqrt(charlength))
     decreaser = boxsize - 1
     while decreaser >= 0:
-        templist = []
         for i in range(0,charlength):
             if i % boxsize == decreaser:
                 match = match + a[i]
         decreaser -= 1
     return match
+
+def randomizemove(a):
+    x = randint(1, 5)
+    print x
+    if x == 1:
+        a = fhoriz(a)
+    elif x == 2:
+        a = fvert(a)
+    elif x == 3:
+        a = r90(a)
+    elif x == 4:
+        a = r180(a)
+    else:
+        a = r270(a)
+    return a
 
 input_text = 'daninput.txt'
 currentgrid = '.#...####'
@@ -124,31 +138,14 @@ ruleinput = []
 for rule in ruleschecklist:
     ruleinput.append(rule[0:findequals(rule)])
 
-for rule in ruleinput:
-    if rule.count("#") == 5:
-        print rule
+transformcount = 0
 
-#print ruleschecklist
-
-#if currentgrid in ruleinput:
-print "current!"
-
-#if fhoriz(currentgrid) in ruleinput:
-print "fhoriz!"
-print fhoriz(currentgrid)
-
-#if fvert(r180(currentgrid)) in ruleinput:
-print "fvert!"
-print fvert(currentgrid)
-
-#if r180(currentgrid) in ruleinput:
-print "r180!"
-print r180(currentgrid)
-
-#if r90(currentgrid) in ruleinput:
-print "r90!"
-print r90(currentgrid)
-
-#if r270(currentgrid) in ruleinput:
-print "r270!"
-print r270(currentgrid)
+while True:
+    if currentgrid in ruleinput:
+        print currentgrid
+        print transformcount
+        break
+    else:
+        currentgrid = randomizemove(currentgrid)
+        currentgrid = randomizemove(currentgrid)
+        transformcount += 2
