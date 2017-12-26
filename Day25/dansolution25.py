@@ -71,11 +71,11 @@ for i in range(1,len(justinstructions)):
 
     turing_dict[splittest[0][1:2]] = Turing()
     turing_dict[splittest[0][1:2]].name = splittest[0][1:2]
-    turing_dict[splittest[0][1:2]].zeroval = getval(splittest[2])
-    turing_dict[splittest[0][1:2]].zeromove = getdir(splittest[3])
+    turing_dict[splittest[0][1:2]].zeroval = int(getval(splittest[2]))
+    turing_dict[splittest[0][1:2]].zeromove = int(getdir(splittest[3]))
     turing_dict[splittest[0][1:2]].zerostate = getnextstate(splittest[4])
-    turing_dict[splittest[0][1:2]].oneval = getval(splittest[6])
-    turing_dict[splittest[0][1:2]].onemove = getdir(splittest[7])
+    turing_dict[splittest[0][1:2]].oneval = int(getval(splittest[6]))
+    turing_dict[splittest[0][1:2]].onemove = int(getdir(splittest[7]))
     turing_dict[splittest[0][1:2]].onestate = getnextstate(splittest[8])
 
     print turing_dict[splittest[0][1:2]].turing_facts()
@@ -91,7 +91,7 @@ iter_count = int(checksumcount(instructions))
 k = 0
 
 while k < iter_count:
-    if slot_list[current_position] == 0 or slot_list[current_position] == '0':
+    if slot_list[current_position] == 0:
         slot_list[current_position] = turing_dict[turing_state].zeroval
         current_position += turing_dict[turing_state].zeromove
         if current_position < 0:
@@ -110,8 +110,6 @@ while k < iter_count:
             slot_list.append(0)
         turing_state = turing_dict[turing_state].onestate
 
-    #print slot_list
-    #print k
     k += 1
 
-print "25a: " + str(slot_list.count('1'))
+print "25a: " + str(slot_list.count(1))
