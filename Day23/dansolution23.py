@@ -39,7 +39,7 @@ def makedict(a):
             c[item[2]] = 0
     return c
 
-input_text = 'daninput.txt'
+input_text = 'daninputtemp.txt'
 
 instructions = newlinefile(input_text)
 
@@ -53,6 +53,18 @@ position = 0
 int1 = 0
 int2 = 0
 mulcount = 0
+runcount = 0
+reg_dict['a'] = 1
+
+#reg_dict['c'] = 123500
+#reg_dict['b'] = 106500
+#reg_dict['e'] = 2
+#reg_dict['d'] = 2
+#reg_dict['g'] = 0
+#reg_dict['f'] = 1
+#reg_dict['h'] = 0
+
+#runcount = 10
 
 while position >= 0 and position < len(instructions):
     item = instructions[position].split(' ')
@@ -83,7 +95,9 @@ while position >= 0 and position < len(instructions):
         position += int2
     else:
         position += 1
-    #print position
+
+    runcount += 1
 
 print reg_dict
-print mulcount
+print runcount
+#print mulcount
