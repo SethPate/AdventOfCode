@@ -50,10 +50,10 @@ def find_common_characters(a,b):
     return d
 
 #2a function - make freq table, count number of a's and number of b's, return product.
-def checksum_calc(id_list,a,b):
+def checksum_calc(c_list,a,b):
     a_count = 0
     b_count = 0
-    for package_id in id_list:
+    for package_id in c_list:
         id_string = string_to_list(package_id)
         id_table = list_to_freq_table(id_string)
         a_count += dict_count(id_table,a)
@@ -64,10 +64,10 @@ def checksum_calc(id_list,a,b):
 def string_match_comp(a):
     for i in range(0,len(a)):
         for j in range(0,len(a)):
-            l_distance_check = lev_distance(id_list[i],id_list[j])
+            l_distance_check = lev_distance(a[i],a[j])
             if l_distance_check == 1:
-                match_1 = id_list[i]
-                match_2 = id_list[j]
+                match_1 = a[i]
+                match_2 = a[j]
                 return find_common_characters(match_1,match_2)
 
 id_list = newlinefile("danday2input.txt")
