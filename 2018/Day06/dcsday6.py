@@ -1,11 +1,5 @@
 #dan day 6
 
-#1. Find the size of the grid.
-#2. Create grid. Similar to timestamp problem--every space needs to be created.
-#3. Grid characteristics: x_pos, y_pos, point_number, is_location, is infinite, is_shared, shared_list.
-#4. Solve "is_infinite."
-#5. Go through each item in grid Make infinite markers. Infinite = 0,y; x,0; max_x,0; 0, max_y.
-
 def newlinefile(a):
     input1 = open(a, 'r')
     input1 = input1.read()
@@ -42,14 +36,6 @@ def getKeysByValue(dictOfElements, valueToFind):
         if item[1] == valueToFind:
             listOfKeys.append(item[0])
     return listOfKeys
-
-def keywithminvalue(d):
-     v=list(d.values())
-     k=list(d.keys())
-     return k[v.index(min(v))]
-
-def min_value_in_dict(dict_name):
-    return min(dict_name, key = lambda x: dict_name.get(x) )
 
 class Coordinate:
     _registry = []
@@ -141,8 +127,6 @@ for item in coordinate_names:
         else:
             coordinate_set[item].point_number = points_list[0]
         
-#print coordinate_set["x7y7"].coordinate_info()
-
 #create area by point number class
 point_number_set = {}
 
@@ -172,10 +156,10 @@ max_area = 0
 #print limited_point_numbers
 
 for item in limited_point_numbers:
-    if point_number_set[item].is_infinite == 0 and point_number_set[item].area > max_area:
+    if point_number_set[item].area > max_area:
         max_area = point_number_set[item].area
 
-print("6a:" + str(max_area))
+print("6a: " + str(max_area))
 
 #6b
 
