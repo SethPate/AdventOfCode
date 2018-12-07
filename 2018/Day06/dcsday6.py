@@ -17,6 +17,10 @@ def newlinefile(a):
             input3.append(input2)
     return input3
 
+def infinite_scope(a,b,c,d):
+    if a == 0 or b == 0 or a == c or b == c:
+        return 1
+
 def find_max_pos(a,b):
     current_max = a[0][b]
     for item in a:
@@ -144,10 +148,7 @@ limited_point_numbers = list(point_numbers)
 
 for item in coordinate_names:
     if coordinate_set[item].point_number in limited_point_numbers:
-        if coordinate_set[item].x_pos == 0 or coordinate_set[item].x_pos == max_x:
-            point_number_set[coordinate_set[item].point_number].is_infinite == 1
-            limited_point_numbers.remove(coordinate_set[item].point_number)
-        elif coordinate_set[item].y_pos == 0 or coordinate_set[item].y_pos == max_y:
+        if infinite_scope(coordinate_set[item].x_pos,coordinate_set[item].y_pos,max_x,max_y) == 1:
             point_number_set[coordinate_set[item].point_number].is_infinite == 1
             limited_point_numbers.remove(coordinate_set[item].point_number)
 
