@@ -59,7 +59,7 @@ input_text = 'dcsday9input.txt'
 parameters = newlinefile(input_text)
 
 player_count = int(parameters[0])
-total_marbles = int(parameters[6]) * 100
+total_marbles = int(parameters[6])
 
 Game()
 
@@ -75,4 +75,4 @@ for a in range(1,player_count):
     if Player._registry[a].score > max_score:
         max_score = Player._registry[a].score
 
-print("9b: " + str(max_score))
+print("9a: " + str(max_score))
