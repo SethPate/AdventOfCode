@@ -71,6 +71,7 @@ class Generation:
         self._registry.append(self)
         self.gen_list = a
         self.gen_number = 0
+        self.plant_count = 0
         
 class Rule:
     _registry = []
@@ -80,6 +81,20 @@ class Rule:
         self.rule_input = a[0:5]
         self.rule_output = a[-1:]
 
+class PlantPositions:
+    _registry = []
+    
+    def __init__(self,a):
+        self._registry.append(self)
+        self.pp_sum = a
+        self.gen_number = 0
+        self.diff_from_prev_gen = 0
+    
+    def get_prev_gen_count(self):
+        self.diff_from_prev_gen = self.pp_sum - PlantPositions._registry[self.gen_number - 1].pp_sum
+
+
+PlantPositions(0)
 
 input_text = 'dcsday12input.txt'
 
@@ -99,7 +114,12 @@ for i in range(0,len(initial_generation)):
     pot_set[i].position = i
     pot_set[i].tg_status = initial_generation[i]
 
-for j in range(1,21):
+plant_position_sums = {}
+
+linear_yet = 0
+j = 1
+
+while linear_yet == 0:    
 
     first_pound_pos = find_first_pound(pot_set)
     last_pound_pos = find_last_pound(pot_set)
@@ -125,10 +145,27 @@ for j in range(1,21):
     for item in Pot._registry:
         item.gen_advance()
 
-position_sum = 0
+    position_sum = 0
+    
+    for item in Pot._registry:
+        if item.tg_status == '#':
+            position_sum += item.position
+    
+    PlantPositions(position_sum)
+    PlantPositions._registry[j].gen_number = j
+    PlantPositions._registry[j].get_prev_gen_count()
+    
+    if j == 20:
+        print("12a: " + str(PlantPositions._registry[j].pp_sum))
+    
+    if PlantPositions._registry[j].diff_from_prev_gen == PlantPositions._registry[j - 1].diff_from_prev_gen:
+        if PlantPositions._registry[j].diff_from_prev_gen == PlantPositions._registry[j - 2].diff_from_prev_gen:
+            linear_yet = 1
+        else:
+            j += 1
+    else:
+        j += 1
 
-for item in Pot._registry:
-    if item.tg_status == '#':
-        position_sum += item.position
-        
-print("12a: " + str(position_sum))
+pp_sum_50billion = PlantPositions._registry[j].pp_sum + ((50000000000 - j) * PlantPositions._registry[j].diff_from_prev_gen)
+
+print("12b: " + str(pp_sum_50billion))
