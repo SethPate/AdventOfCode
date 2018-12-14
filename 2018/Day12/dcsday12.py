@@ -39,11 +39,6 @@ def expand_gen_list(a,b,c):
         pot_set[b - i].tg_status = '.'
         pot_set[c + i].tg_status = '.'
     return pot_set
-    
-def get_max_dict_key(a):
-    k=list(a.keys())
-    return max(k)
-
 
 def get_initial_generation(a):
     input1 = a.split(": ")
