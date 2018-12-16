@@ -29,7 +29,7 @@ class Cart:
     
     def __init__(self):
         self._registry.append(self)
-        self.cart_number = 0
+        self.cart_designator = 0
         self.direction = ''
         self.next_turn = 'L'
         self.x_coordinate = 0
@@ -39,7 +39,7 @@ class Cart:
     
     def assign_carts(self):
         self.current_point = 'x' + str(self.x_coordinate) + 'y' + str(self.y_coordinate)
-        tracks[self.current_point].current_carts.append(self.cart_number)
+        tracks[self.current_point].current_carts.append(self.cart_designator)
     
     def cart_turn(self):
         if self.next_turn == 'L':
@@ -59,25 +59,20 @@ class Cart:
     
     def cart_move(self):
         self.prev_point = self.current_point
-        #track_point = tracks[self.prev_point]
         if tracks[self.prev_point].pos_type == '-':
             self.move_dash()
-            #print "-"
         elif tracks[self.prev_point].pos_type == '|':
             self.move_pipe()
-            #print "pipe"
         elif tracks[self.prev_point].pos_type == '/':
             self.move_fs()
-            #print "fs"
         elif tracks[self.prev_point].pos_type == '\\':
             self.move_bs()
-            #print "bs"
         elif tracks[self.prev_point].pos_type == '+':
             self.cart_turn()
             self.move_plus()
         self.current_point = 'x' + str(self.x_coordinate) + 'y' + str(self.y_coordinate)
-        tracks[self.prev_point].current_carts.remove(self.cart_number)
-        tracks[self.current_point].current_carts.append(self.cart_number)
+        tracks[self.prev_point].current_carts.remove(self.cart_designator)
+        tracks[self.current_point].current_carts.append(self.cart_designator)
         self.check_current_point()
     
     def move_dash(self):
@@ -148,24 +143,25 @@ class Cart:
     def cart_info(self):
         print("x: " + str(self.x_coordinate))
         print("y: " + str(self.y_coordinate))
-        print("cart number: " + str(self.cart_number))
+        print("cart number: " + str(self.cart_designator))
         print("direction: " + str(self.direction))
         print("next turn: " + str(self.next_turn))
     
     def check_current_point(self):
-        #print tracks[self.current_point].current_carts
-        #print self.x_coordinate
-        #print self.y_coordinate
-        #time.sleep(1)
         if len(tracks[self.current_point].current_carts) > 1:
             print "collision!"
             print self.current_point
-            #crash_deletion(tracks[self.current_point].current_carts)
+            crash_deletion(tracks[self.current_point].current_carts)
+            tracks[self.current_point].current_carts = []
             #sys.exit()
 
-#def crash_deletion(a):
-    #for item in a:
-        #Carts._registry.remove(item)
+def crash_deletion(a):
+    for item in a:
+        del cart_set[item]
+
+def get_remaining_key(a):
+    k=list(a.keys())
+    return k[0]
 
 #every point in our initial diagram is stored in a class.
 #fix_tracks figures out what type of track lies below carts.
@@ -201,27 +197,19 @@ def make_points(a):
             b[point_name].x_coordinate = x
             b[point_name].y_coordinate = y
             b[point_name].pos_type = a[y][x]
-            #print b[point_name].pos_type
     return b
 
 def run_turn():
-    #print tracks['x4y2'].pos_type
     already_moved = {}
     for y in range(0,get_height(track_points)):
         for x in range(0,get_width(track_points)):
             point_name = "x" + str(x) + "y" + str(y)
-            #print point_name
             if len(tracks[point_name].current_carts) > 0:
-                #print point_name
-                #print "cart number: " + str(tracks[point_name].current_carts[0])
-                if Cart._registry[tracks[point_name].current_carts[0]] not in already_moved:
-                    #print "run!"
-                    #print Cart._registry[tracks[point_name].current_carts[0]].cart_number
-                    already_moved[Cart._registry[tracks[point_name].current_carts[0]]] = 0
-                    Cart._registry[tracks[point_name].current_carts[0]].cart_move()
-    #print Cart._registry[0].current_point
-    #print Cart._registry[0].direction
-    #time.sleep(1)
+                if cart_set[tracks[point_name].current_carts[0]] not in already_moved:
+                    already_moved[cart_set[tracks[point_name].current_carts[0]]] = 0
+                    cart_set[tracks[point_name].current_carts[0]].cart_move()
+                    
+cart_set = {}
 
 #this function identifies the carts in the list of lists.
 def get_carts():
@@ -230,11 +218,11 @@ def get_carts():
     i = 0
     for item in Point._registry:
         if item.pos_type in cart_signs:
-            Cart()
-            Cart._registry[i].cart_number = i
-            Cart._registry[i].x_coordinate = item.x_coordinate
-            Cart._registry[i].y_coordinate = item.y_coordinate
-            Cart._registry[i].direction = directions[cart_signs.index(item.pos_type)]
+            cart_set[i] = Cart()
+            cart_set[i].cart_designator = i
+            cart_set[i].x_coordinate = item.x_coordinate
+            cart_set[i].y_coordinate = item.y_coordinate
+            cart_set[i].direction = directions[cart_signs.index(item.pos_type)]
             i += 1
 
 input_text = 'dcsday13input.txt'
@@ -251,11 +239,15 @@ get_carts()
 for item in Point._registry:
     item.fix_tracks()
 
-#Cart._registry[1].cart_info()
-
 for item in Cart._registry:
     item.assign_carts()
 
-while collision_constant >= 0:
+#while collision_constant >= 0:
+    #run_turn()
+
+while len(cart_set) > 1:
     run_turn()
     
+final_key = get_remaining_key(cart_set)
+
+print cart_set[final_key].current_point
