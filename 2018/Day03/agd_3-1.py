@@ -1,7 +1,7 @@
 datum = []
 cloth = []
 dup_cloth = []
-with open("input.txt", "r") as x:
+with open("2018/Day03/agd_input3.txt", "r") as x:
     data = x.readlines()
 
 for line in data:

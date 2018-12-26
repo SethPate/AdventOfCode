@@ -1,7 +1,7 @@
 pline = []
 ans_init = []
 ans_next = []
-with open("input.txt", "r") as x:
+with open("2018/Day02/agd_input2.txt", "r") as x:
     data = x.readlines()
 
 for line in data:

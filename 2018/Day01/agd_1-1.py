@@ -1,6 +1,6 @@
 freq = 0
 
-with open("input.txt", "r") as x:
+with open("2018/Day01/agd_input1.txt", "r") as x:
   data = x.readlines()
 
 for i in range(len(data)):
