@@ -5,7 +5,7 @@ copies = 0
 trip = 0
 totdup = 0
 tottrip = 0
-with open("input.txt", "r") as x:
+with open("2018/Day02/agd_input2.txt", "r") as x:
     data = x.readlines()
 
 for line in data:

@@ -2,7 +2,7 @@ freq = 0
 freqset = [freq]
 repeat = 0
 done = 0
-with open("day1\input.txt", "r") as x:
+with open("2018/Day01/agd_input1.txt", "r") as x:
   data = x.readlines()
 
 while done == 0:
