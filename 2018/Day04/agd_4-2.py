@@ -73,18 +73,38 @@ minutes = []
 for x in range(60):
     minutes.append(0)
 
+guardlist = [0]
+count = 0
 for x in range(len(data)):
-    if datum[x][0] == maxguard:
-        if datum[x][5] == "falls":
-            for i in range(datum[x+1][4]-datum[x][4]):
-                minutes[datum[x][4]+i] += 1
+    if datum[x][0] != guardlist[count]:
+        guardlist.append(datum[x][0])
+        count += 1
 
-check = 0
-print(minutes)
-for i in range(len(minutes)):
-    if minutes[i] > check:
-        check = minutes[i]
-        print(i)
+guardlist.pop(0)
+
+guard_min = []
+print(guardlist)
+prev_check = 0
+act_guard = guardlist[0]
+
+for g in range(len(guardlist)):
+    for x in range(len(data)):
+        if datum[x][0] == guardlist[g]:
+            if datum[x][5] == "falls":
+                for i in range(datum[x+1][4]-datum[x][4]):
+                    minutes[datum[x][4]+i] += 1
+    check = 0
+    maxmin = 0
+    for i in range(len(minutes)):
+        if minutes[i] > check:
+            check = minutes[i]
+            maxmin = i
+    if check > prev_check:
+        print(check)
+        prev_check = check
+        print(guardlist[g]*maxmin)
+    for x in range(60):
+        minutes[x]=0
 
 
 
